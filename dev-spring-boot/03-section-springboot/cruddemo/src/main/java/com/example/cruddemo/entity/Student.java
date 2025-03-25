@@ -23,6 +23,10 @@ public class Student {
     private String email;
     //define constructors
 
+    // **Default Constructor (Required by Hibernate)**
+    public Student() {
+    }
+
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
