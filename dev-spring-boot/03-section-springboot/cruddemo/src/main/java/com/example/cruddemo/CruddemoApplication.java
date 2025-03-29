@@ -20,7 +20,7 @@ public class CruddemoApplication {
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO){
 
 		return runner->{
-			//createStudent(studentDAO);
+			createStudent(studentDAO);
 
 			//readStudent(studentDAO);
 
@@ -94,7 +94,7 @@ public class CruddemoApplication {
 
 	private void createStudent(StudentDAO studentDAO) {
 		System.out.println("Creating new student object...");
-		Student tempStudent = new Student("Majd","blhader","m@gmail.com");
+		Student tempStudent = new Student("Majd","Alhader","m@gmail.com");
 
 		System.out.println("Saving the student...");
 		studentDAO.save(tempStudent);
