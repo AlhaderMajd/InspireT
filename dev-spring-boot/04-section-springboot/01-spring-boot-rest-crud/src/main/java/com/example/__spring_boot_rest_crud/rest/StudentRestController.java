@@ -1,9 +1,10 @@
 package com.example.__spring_boot_rest_crud.rest;
 
 import com.example.__spring_boot_rest_crud.entity.Student;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.annotation.PostConstruct;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,28 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentRestController {
 
-    @GetMapping("/students")
-    public List<Student> getStudents(){
+    List<Student> theStudents;
 
-        List<Student> theStudents = new ArrayList<>();
+    @PostConstruct
+    public void loadData(){
+        theStudents = new ArrayList<>();
 
         theStudents.add(new Student("Majd","Alhader"));
         theStudents.add(new Student("Zaid","Alhader"));
         theStudents.add(new Student("Ahmad","Alhader"));
+    }
 
+    @GetMapping("/students")
+    public List<Student> getStudents(){
         return theStudents;
+    }
+
+    @GetMapping("/students/{studentId}")
+    public Student getStudent(@PathVariable int studentId){
+
+        if((studentId >= theStudents.size()) || (studentId < 0)){
+            throw new StudentNotFoundException("Student id not found - "+studentId);
+        }
+        return theStudents.get(studentId);
     }
 }
