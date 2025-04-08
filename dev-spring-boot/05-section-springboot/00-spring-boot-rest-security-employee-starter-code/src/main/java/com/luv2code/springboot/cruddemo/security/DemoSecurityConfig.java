@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DemoSecurityConfig {
 
-    //this not clear for me now
+    //these not clear for me now
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -31,7 +31,7 @@ public class DemoSecurityConfig {
         );
         return jdbcUserDetailsManager;
     }
-    
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeHttpRequests(cofigurer ->
@@ -50,7 +50,8 @@ public class DemoSecurityConfig {
         return httpSecurity.build();
     }
 
-        /*    @Bean
+    /*
+    @Bean
     public InMemoryUserDetailsManager userDetailsManager(){
 
         UserDetails john = User.builder()
