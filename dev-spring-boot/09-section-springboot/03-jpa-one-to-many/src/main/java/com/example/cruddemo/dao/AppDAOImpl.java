@@ -1,12 +1,16 @@
 package com.example.cruddemo.dao;
 
+import com.example.cruddemo.entity.Course;
 import com.example.cruddemo.entity.Instructor;
 import com.example.cruddemo.entity.InstructorDetail;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class AppDAOImpl implements AppDAO{
@@ -48,6 +52,31 @@ public class AppDAOImpl implements AppDAO{
         InstructorDetail tempInstructorDetail = entityManager.find(InstructorDetail.class, theId);
         tempInstructorDetail.getInstructor().setInstructorDetail(null);
         entityManager.remove(tempInstructorDetail);
+    }
+
+    @Override
+    public List<Course> findCoursesByInstructorId(int theId) {
+        TypedQuery<Course> query = entityManager.createQuery(
+                "from Course where instructor.id = :data", Course.class
+        );
+        query.setParameter("data",theId);
+        List<Course> courses = query.getResultList();
+        return courses;
+    }
+
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int theId) {
+        TypedQuery<Instructor> query = entityManager.createQuery(
+          "select i from Instructor i "
+                +"JOIN FETCH i.courses "
+                  +"JOIN FETCH i.instructorDetail "
+                +"where i.id = :data", Instructor.class
+        );
+        query.setParameter("data", theId);
+
+        Instructor instructor = query.getSingleResult();
+
+        return instructor;
     }
 
 }
