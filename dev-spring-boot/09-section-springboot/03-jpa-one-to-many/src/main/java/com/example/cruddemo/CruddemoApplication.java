@@ -1,6 +1,7 @@
 package com.example.cruddemo;
 
 import com.example.cruddemo.dao.AppDAO;
+import com.example.cruddemo.entity.Course;
 import com.example.cruddemo.entity.Instructor;
 import com.example.cruddemo.entity.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
@@ -26,8 +27,31 @@ public class CruddemoApplication {
 
 			//findInstructorDetail(appDAO);
 
-			deleteInstructorDetail(appDAO);
+			//deleteInstructorDetail(appDAO);
+
+			creatInstructorWithCourse(appDAO);
 		};
+	}
+
+	private void creatInstructorWithCourse(AppDAO appDAO) {
+		Instructor tempInstructor =
+				new Instructor("ahmad", "alhader","a@gmail.com");
+		InstructorDetail tempInstructorDetail =
+				new InstructorDetail("http/ahmad", "FB");
+
+		tempInstructor.setInstructorDetail(tempInstructorDetail);
+
+		Course tempcourse1 = new Course("web-1");
+		Course tempcourse2 = new Course("fund");
+
+		tempInstructor.add(tempcourse1);
+		tempInstructor.add(tempcourse2);
+
+		System.out.println("Saving instructor: "+tempInstructor);
+		System.out.println("The courses: "+tempInstructor.getCourses());
+		appDAO.save(tempInstructor);
+
+		System.out.println("Done");
 	}
 
 	private void deleteInstructorDetail(AppDAO appDAO) {
